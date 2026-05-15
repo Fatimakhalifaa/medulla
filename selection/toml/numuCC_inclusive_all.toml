@@ -95,7 +95,7 @@ branch = [
     { name = "no_photons",               type = "reco", parameters = [ "@photon_threshold" ] },
     { name  = "reco_interaction_type",   type = "reco" },
     { name = "ele_beam_open_angle",      type = "reco"},
-    #{ name = "leading_muon_energy_cut",   type = "reco", parameters = [ "@muon_threshold" ] },
+    { name = "leading_muon_energy_cut",   type = "reco", parameters = [ "@muon_threshold" ] },
 
     { name = "baseline",                 type = "mctruth" },
     { name = "cc",                       type = "mctruth" },
@@ -119,7 +119,7 @@ branch = [
     { name = "momentum_transfer",        type = "true"},
     { name = "hadronic_invariant_mass",  type = "true"},
     { name = "ele_beam_open_angle",      type = "true"},
-    #{ name = "leading_muon_energy_cut",   type = "true", parameters = [ "@muon_threshold" ] },
+    { name = "leading_muon_energy_cut",   type = "true", parameters = [ "@muon_threshold" ] },
 
     { name = "vertex_distance",          type = "reco_particle", selector = "leading_electron" },
     { name = "ke",                       type = "reco_particle", selector = "leading_electron" },
@@ -277,7 +277,7 @@ cut = [
     #{ name = "no_muons",                  type = "reco", parameters = [ "@muon_threshold" ] },
     #{ name = "electron_softmax_cut",      type = "reco", parameters = [ "@electron_softmax", "@greater_than" ] },
     #{ name = "primary_softmax_cut",       type = "reco", parameters = [ "@primary_softmax", "@greater_than" ] },
-    #{ name = "leading_muon_energy_cut",    type = "reco", parameters = [ "@muon_threshold" ] },
+    { name = "leading_muon_energy_cut",    type = "reco", parameters = [ "@muon_threshold" ] },
 
 ]
 branch = [
@@ -311,7 +311,7 @@ branch = [
     { name = "no_photons",               type = "reco", parameters = [ "@photon_threshold" ] },
     { name  = "reco_interaction_type",   type = "reco" },
     { name = "ele_beam_open_angle",      type = "reco"},
-    #{ name = "leading_muon_energy_cut",   type = "reco", parameters = [ "@muon_threshold" ] },
+    { name = "leading_muon_energy_cut",   type = "reco", parameters = [ "@muon_threshold" ] },
 
     { name = "baseline",                 type = "mctruth" },
     { name = "cc",                       type = "mctruth" },
@@ -335,7 +335,7 @@ branch = [
     { name = "momentum_transfer",        type = "true"},
     { name = "hadronic_invariant_mass",  type = "true"},
     { name = "ele_beam_open_angle",      type = "true"},
-    #{ name = "leading_muon_energy_cut",   type = "true", parameters = [ "@muon_threshold" ] },
+    { name = "leading_muon_energy_cut",   type = "true", parameters = [ "@muon_threshold" ] },
 
     { name = "vertex_distance",          type = "reco_particle", selector = "leading_electron" },
     { name = "ke",                       type = "reco_particle", selector = "leading_electron" },
@@ -489,7 +489,7 @@ cut = [
     { name = "has_particle_multiplicity",  type = "true",  parameters = [ 1, 2 ] },
     #{ name = "no_muons",                   type = "true",  parameters = [ "@muon_threshold" ] },
     { name = "containment_cut",            type = "true"},
-    #{ name = "leading_muon_energy_cut",     type = "true",  parameters = [ "@muon_threshold" ] },
+    { name = "leading_muon_energy_cut",     type = "true",  parameters = [ "@muon_threshold" ] },
 ]
 branch = [
     { name = "fiducial_cut",            type = "reco"    },
@@ -522,7 +522,7 @@ branch = [
     { name = "no_photons",               type = "reco", parameters = [ "@photon_threshold" ] },
     { name  = "reco_interaction_type",   type = "reco" },
     { name = "ele_beam_open_angle",      type = "reco"},
-    #{ name = "leading_muon_energy_cut",   type = "reco", parameters = [ "@muon_threshold" ] },
+    { name = "leading_muon_energy_cut",   type = "reco", parameters = [ "@muon_threshold" ] },
 
     { name = "baseline",                 type = "mctruth" },
     { name = "cc",                       type = "mctruth" },
@@ -546,7 +546,7 @@ branch = [
     { name = "momentum_transfer",        type = "true"},
     { name = "hadronic_invariant_mass",  type = "true"},
     { name = "ele_beam_open_angle",      type = "true"},
-    #{ name = "leading_muon_energy_cut",   type = "true", parameters = [ "@muon_threshold" ] },
+    { name = "leading_muon_energy_cut",   type = "true", parameters = [ "@muon_threshold" ] },
 
     { name = "vertex_distance",          type = "reco_particle", selector = "leading_electron" },
     { name = "ke",                       type = "reco_particle", selector = "leading_electron" },
@@ -712,7 +712,7 @@ cuts = [
     { name = "has_particle_multiplicity", parameters = [ 1, 2 ] },
     #{ name = "no_muons",                  parameters = [ "@muon_threshold" ] },
     { name = "containment_cut" },
-    #{ name = "leading_muon_energy_cut",    parameters = [ "@muon_threshold" ] },
+    { name = "leading_muon_energy_cut",    parameters = [ "@muon_threshold" ] },
 
 ]
 
