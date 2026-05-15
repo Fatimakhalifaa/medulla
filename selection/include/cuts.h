@@ -109,25 +109,6 @@ namespace cuts
     REGISTER_CUT_SCOPE(RegistrationScope::True, iscc, iscc);
 
     /**
-     * @brief Apply a cut on the neutrino pdg.
-     * @details This function applies a cut to select interactions based on
-     * the neutrino pdg
-     * @tparam T the type of interaction (true or reco).
-     * @param obj the interaction to select on.
-     * @param params the parameters for the cut. In this case, this is a vector
-     * of neutrino pdg codes accepted
-     * @return true if the neutrino pdg is one of the specified pdgs.
-     */
-    template<class T>
-    bool is_neutrino_pdg(const T & obj, std::vector<double> params={})
-    {
-        if(params.empty())
-            return true; // No cut applied if no parameters are given.
-        return std::find(params.begin(), params.end(), obj.pdg_code) != params.end();
-    }
-    REGISTER_CUT_SCOPE(RegistrationScope::True, is_neutrino_pdg, is_neutrino_pdg);
-  
-    /**
      * @brief Apply a cut on the interaction mode.
      * @details This function applies a cut to select interactions based on
      * the interaction mode. The interaction mode is stored by Genie as an
@@ -698,6 +679,17 @@ namespace cuts
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Reco, vertex_distance_cut, vertex_distance_cut);
 
+
+    template<class T>
+    bool vertex_distance_cut_mu(const T & obj, std::vector<double> params={0.0,})
+    {   
+        size_t i = selectors::leading_muon(obj);
+        if (i == kNoMatch) return false;
+        const auto & p = obj.particles[i];
+        return p.vertex_distance >= 0 ? p.vertex_distance < params[0] : false;
+    }
+    REGISTER_CUT_SCOPE(RegistrationScope::Reco, vertex_distance_cut_mu, vertex_distance_cut_mu);
+
     /**
      * @brief Cut to select interactions with a specific neutrino PDG code.
      * @details This function applies a cut to select interactions with a
@@ -856,6 +848,27 @@ namespace cuts
     REGISTER_CUT_SCOPE(RegistrationScope::Both, leading_ele_energy_cut, leading_ele_energy_cut);
 
     template<class T>
+    bool leading_muon_energy_cut(const T & obj, std::vector<double> params={143.425})
+    {
+        if(params.size() != 1)
+            throw std::invalid_argument("leading_muon_energy_cut requires exactly the energy threshold");
+
+        size_t i = selectors::leading_muon(obj);
+        if (i == kNoMatch) return false;
+        const auto & p = obj.particles[i];
+
+        double energy_threshold = params[0];
+
+        if (std::isnan(pvars::energy(p)))
+        {
+            return false; // or true, depending on how you want to handle NaN values
+        }
+        return pvars::energy(p) > energy_threshold;
+    }
+    REGISTER_CUT_SCOPE(RegistrationScope::Both, leading_muon_energy_cut, leading_muon_energy_cut);
+
+
+    template<class T>
     bool leading_photon_energy_cut(const T & obj, std::vector<double> params={25.0})
     {
         if(params.size() != 1)
@@ -927,14 +940,19 @@ namespace cuts
             params[2] = 10.0;    // Distance threshold between Michel and muon start/end points
         }
 
+        bool is_michel = false;
+        bool is_attached = false;
+
         for(const auto & p : obj.particles)
         {
-            if(pvars::semantic_type(p) != 2 || p.size < params[0])
+            if(pvars::semantic_type(p) != 2 && p.size > params[0])
                 continue; // Not target Michel
+
+            is_michel = true;
 
             for(const auto & p2 : obj.particles)
             {
-                if(pvars::pid(p2) != 2 || !pvars::primary_classification(p2) || pvars::ke(p2) < params[1])
+                if(pvars::pid(p2) != 2 && pvars::primary_classification(p2) && pvars::ke(p2) >= params[1])
                     continue; // Not target muon
 
                 float dx = pvars::start_x(p) - pvars::end_x(p2);
